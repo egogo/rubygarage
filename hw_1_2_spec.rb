@@ -1,4 +1,5 @@
 require 'rspec'
+require_relative 'hw_1_2'
 
 describe Parcel do
   describe '#full_address' do

@@ -35,6 +35,6 @@ class MailFacility
   end
   
   def most_popular_address
-    @parcels.inject(Hash.new(0)) {|m,p| m[p.full_address] += 1; m }.sort_by(&:last).reverse.flatten.first
+    @parcels.inject(Hash.new(0)) {|m,p| m[p.full_address] += 1; m }.sort_by(&:last)[-1].first
   end
 end

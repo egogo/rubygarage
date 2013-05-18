@@ -17,7 +17,7 @@ class Library
   end
 
   def not_satisfied_orders
-    @orders.select {|o| !o.satisfied? }
+    @orders.reject(&:satisfied?)
   end
 
   def top_lenders_for(book, max = 3)
@@ -34,12 +34,11 @@ class Library
   def number_of_people_ordered_one_of_the_three_most_popular_books
     books = most_popular_books(3)
     @orders.select {|o| books.include?(o.book_title) }
-    .inject({}) do |m,o|
-      m[o.lender_name] ||= []
+    .inject(Hash.new {|h,k| h[k] = [] }) do |m,o|
       m[o.lender_name] << o.book_title
       m[o.lender_name].uniq!
       m
-    end.inject(0) {|s,(k,v)| s += (v.size == 1 ? 1 : 0); s }
+    end.inject(0) {|s,(_,v)| s += (v.size == 1 ? 1 : 0) }
   end
 end
 
